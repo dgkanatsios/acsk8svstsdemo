@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-a
+  labels:
+    name: service-a
+    app: demo
+spec:
+  containers:
+  - name: service-a
+    image: $ACR_DNS/service-a
+    ports:
+    - containerPort: 80
+      protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: service-b
+  labels:
+    name: service-b
+    app: demo
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: service-b
+        app: demo
+    spec:
+      containers:
+      - name: service-b
+        image: $ACR_DNS/service-b
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mycache
+  labels:
+    name: mycache
+    app: demo
+spec:
+  containers:
+  - name: mycache
+    image: redis:alpine
+    ports:
+    - containerPort: 6379
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-a
+  labels:
+    name: service-a
+    app: demo
+spec:
+  ports:
+    # the port that this service should serve on
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  # label keys and values that must match in order to receive traffic for this service
+  selector:
+    name: service-a
+    app: demo
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-b
+  labels:
+    name: service-b
+    app: demo
+spec:
+  ports:
+    # the port that this service should serve on
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  # label keys and values that must match in order to receive traffic for this service
+  selector:
+    name: service-b
+    app: demo
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mycache
+  labels:
+    name: mycache
+    app: demo
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+      name: redis
+      protocol: TCP
+  selector:
+    name: mycache
+    app: demo
+  type: NodePort
