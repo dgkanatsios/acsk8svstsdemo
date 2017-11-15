@@ -16,13 +16,13 @@ spec:
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: service-b
+  name: service-b_deployment
   labels:
     name: service-b
     app: demo
 spec:
   strategy:
-    type: Recreate
+    type: RollingUpdate
   replicas: 1
   template:
     metadata:
@@ -55,7 +55,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-a
+  name: service-a_service
   labels:
     name: service-a
     app: demo
@@ -75,7 +75,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-b
+  name: service-b_service
   labels:
     name: service-b
     app: demo
@@ -90,12 +90,11 @@ spec:
   selector:
     name: service-b
     app: demo
-  type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mycache
+  name: mycache_service
   labels:
     name: mycache
     app: demo
@@ -108,4 +107,3 @@ spec:
   selector:
     name: mycache
     app: demo
-  type: NodePort
