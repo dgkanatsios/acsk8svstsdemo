@@ -16,7 +16,7 @@ spec:
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: service-b_deployment
+  name: service-b-deployment
   labels:
     name: service-b
     app: demo
@@ -55,7 +55,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-a_service
+  name: service-a-k8sservice
   labels:
     name: service-a
     app: demo
@@ -75,7 +75,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-b_service
+  name: service-b-k8sservice
   labels:
     name: service-b
     app: demo
@@ -94,7 +94,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mycache_service
+  name: mycache-k8sservice
   labels:
     name: mycache
     app: demo
