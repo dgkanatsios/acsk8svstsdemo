@@ -22,7 +22,7 @@ metadata:
     app: demo
 spec:
   strategy:
-    type: RollingUpdate
+    type: Recreate
   replicas: 1
   template:
     metadata:
@@ -90,6 +90,7 @@ spec:
   selector:
     name: service-b
     app: demo
+    type: NodePort
 ---
 apiVersion: v1
 kind: Service
