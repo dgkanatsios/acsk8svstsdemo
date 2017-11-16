@@ -90,7 +90,7 @@ spec:
   selector:
     name: service-b
     app: demo
-    type: NodePort
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service
