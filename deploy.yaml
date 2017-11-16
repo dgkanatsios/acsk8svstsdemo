@@ -107,3 +107,4 @@ spec:
   selector:
     name: mycache
     app: demo
+  type: NodePort
