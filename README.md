@@ -1,3 +1,5 @@
+[![unofficial Google Analytics for GitHub](https://gaforgithub.azurewebsites.net/api?repo=acsk8svstsdemo)](https://github.com/dgkanatsios/gaforgithub)
+
 Kubernetes on Azure Container Service Continuous Integration/Continuous Deployment demo with Visual Studio Team Services
 ----------------------------------------------------------------------
 
