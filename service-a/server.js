@@ -17,9 +17,11 @@ app.get('/', function (req, res) {
 // api ------------------------------------------------------------
 app.get('/api', function (req, res) {
     // Increment requestCount each time API is called
-    if (!redis) { redis = connectToCache(); }
+    if (!redis) {
+        redis = connectToCache();
+    }
     redis.incr('requestCount', function (err, reply) {
-        if(err) console.log(err);
+        if (err) console.log(err);
         var requestCount = reply;
     });
 
@@ -27,17 +29,27 @@ app.get('/api', function (req, res) {
 
     // Invoke service-b
     request('http://service-b-k8sservice', function (error, response, body) {
-        if(error) console.log(error);
+        if (error) console.log(error);
         res.send('Hello from service A running on ' + os.hostname() + ' and ' + body);
     });
-}); 
+});
 
 app.get('/metrics', function (req, res) {
-    if (!redis) { redis = connectToCache(); }
+    if (!redis) {
+        redis = connectToCache();
+    }
     console.log('/metrics request');
     redis.get('requestCount', function (err, reply) {
-        if(err) console.log(err);
-        res.send({ requestCount: reply });
+        if (err) {
+            console.log(err);
+            res.send({
+                requestCount: 0
+            });
+        } else {
+            res.send({
+                requestCount: reply
+            });
+        }
     });
 });
 
@@ -47,7 +59,7 @@ var server = app.listen(port, function () {
 });
 
 process.on("SIGINT", () => {
-    process.exit(130 /* 128 + SIGINT */);
+    process.exit(130 /* 128 + SIGINT */ );
 });
 
 process.on("SIGTERM", () => {
@@ -56,6 +68,6 @@ process.on("SIGTERM", () => {
 });
 
 function connectToCache() {
-    var redis = require('redis').createClient("redis://mycache");
+    var redis = require('redis').createClient("redis://mycache-k8sservice");
     return redis;
 }
