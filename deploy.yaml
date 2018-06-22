@@ -17,14 +17,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-b-deployment
-  labels:
-    name: service-b
-    app: demo
 spec:
   strategy:
     type: RollingUpdate
   replicas: 1
   template:
+    metadata:
+      labels:
+        name: service-b
+        app: demo
     spec:
       containers:
       - name: service-b
