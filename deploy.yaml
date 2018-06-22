@@ -22,13 +22,9 @@ metadata:
     app: demo
 spec:
   strategy:
-    type: Recreate
+    type: RollingUpdate
   replicas: 1
   template:
-    metadata:
-      labels:
-        name: service-b
-        app: demo
     spec:
       containers:
       - name: service-b
@@ -56,9 +52,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-a-k8sservice
-  labels:
-    name: service-a
-    app: demo
 spec:
   ports:
     # the port that this service should serve on
@@ -76,9 +69,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: service-b-k8sservice
-  labels:
-    name: service-b
-    app: demo
 spec:
   ports:
     # the port that this service should serve on
@@ -90,15 +80,11 @@ spec:
   selector:
     name: service-b
     app: demo
-  type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mycache-k8sservice
-  labels:
-    name: mycache
-    app: demo
 spec:
   ports:
     - port: 6379
@@ -108,4 +94,3 @@ spec:
   selector:
     name: mycache
     app: demo
-  type: NodePort
