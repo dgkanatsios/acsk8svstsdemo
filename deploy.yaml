@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: service-a
   labels:
-    name: service-a
+    name: service-a-pod
 spec:
   containers:
   - name: service-a
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        name: service-b
+        name: service-b-pod
     spec:
       containers:
       - name: service-b
@@ -37,7 +37,7 @@ kind: Pod
 metadata:
   name: mycache
   labels:
-    name: mycache
+    name: mycache-pod
 spec:
   containers:
   - name: mycache
@@ -57,7 +57,7 @@ spec:
       protocol: TCP
   # label keys and values that must match in order to receive traffic for this service
   selector:
-    name: service-a
+    name: service-a-pod
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -71,7 +71,7 @@ spec:
       protocol: TCP
   # label keys and values that must match in order to receive traffic for this service
   selector:
-    name: service-b
+    name: service-b-pod
 ---
 apiVersion: v1
 kind: Service
@@ -82,4 +82,4 @@ spec:
     - port: 6379
       protocol: TCP
   selector:
-    name: mycache
+    name: mycache-pod
