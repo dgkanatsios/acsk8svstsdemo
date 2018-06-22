@@ -4,7 +4,6 @@ metadata:
   name: service-a
   labels:
     name: service-a
-    app: demo
 spec:
   containers:
   - name: service-a
@@ -25,7 +24,6 @@ spec:
     metadata:
       labels:
         name: service-b
-        app: demo
     spec:
       containers:
       - name: service-b
@@ -40,7 +38,6 @@ metadata:
   name: mycache
   labels:
     name: mycache
-    app: demo
 spec:
   containers:
   - name: mycache
@@ -61,7 +58,6 @@ spec:
   # label keys and values that must match in order to receive traffic for this service
   selector:
     name: service-a
-    app: demo
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -76,7 +72,6 @@ spec:
   # label keys and values that must match in order to receive traffic for this service
   selector:
     name: service-b
-    app: demo
 ---
 apiVersion: v1
 kind: Service
@@ -88,4 +83,3 @@ spec:
       protocol: TCP
   selector:
     name: mycache
-    app: demo
