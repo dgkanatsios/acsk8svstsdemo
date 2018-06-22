@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-a
+  labels:
+    name: service-a
+    app: demo
+spec:
+  containers:
+  - name: service-a
+    image: $ACR_DNS/service-a:$BUILD_ID
+    ports:
+    - containerPort: 80
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b-deployment
+spec:
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: service-b
+        app: demo
+    spec:
+      containers:
+      - name: service-b
+        image: $ACR_DNS/service-b:$BUILD_ID
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mycache
+  labels:
+    name: mycache
+    app: demo
+spec:
+  containers:
+  - name: mycache
+    image: redis:alpine
+    ports:
+    - containerPort: 6379
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-a-k8sservice
+spec:
+  ports:
+    # the port that this service should serve on
+    - port: 80
+      protocol: TCP
+      name: http
+  # label keys and values that must match in order to receive traffic for this service
+  selector:
+    name: service-a
+    app: demo
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-b-k8sservice
+spec:
+  ports:
+    # the port that this service should serve on
+    - port: 80
+      protocol: TCP
+      name: http
+  # label keys and values that must match in order to receive traffic for this service
+  selector:
+    name: service-b
+    app: demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mycache-k8sservice
+spec:
+  ports:
+    - port: 6379
+      name: redis
+      protocol: TCP
+  selector:
+    name: mycache
+    app: demo
