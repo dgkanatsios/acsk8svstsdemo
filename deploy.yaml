@@ -17,6 +17,9 @@ kind: Deployment
 metadata:
   name: service-b-deployment
 spec:
+  selector:
+    matchLabels:
+      name: service-b-pod
   strategy:
     type: RollingUpdate
   replicas: 1
